@@ -1,0 +1,1567 @@
+```html
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Government Polytechnic Dumka | Online Student Registration</title>
+
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Load Inter Font from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Configure Tailwind Font Family -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Minimal Print Styling & Row Highlight Animation -->
+    <style>
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #printableSlip, #printableSlip * {
+                visibility: visible;
+            }
+            #printableSlip {
+                position: fixed;
+                left: 0;
+                top: 0;
+                width: 100%;
+                box-shadow: none !important;
+                border: 1px solid #cbd5e1 !important;
+                margin: 0 !important;
+                padding: 20px !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+
+        @keyframes highlightFlash {
+            0% { background-color: #bbf7d0; }
+            70% { background-color: #ecfdf5; }
+            100% { background-color: transparent; }
+        }
+        .row-highlight {
+            animation: highlightFlash 2.8s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans min-h-screen antialiased selection:bg-indigo-100 selection:text-indigo-900">
+
+    <!-- Top Toast Notification Container -->
+    <div id="toastContainer" class="fixed top-4 right-4 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
+
+    <!-- Hero Header Banner -->
+    <header class="bg-gradient-to-br from-slate-900 via-blue-950 to-indigo-950 text-white shadow-xl border-b-4 border-amber-400">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+            <div class="flex flex-col items-center text-center">
+                <!-- College Emblem / Logo -->
+                <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 p-0.5 shadow-lg shadow-amber-500/20 mb-4">
+                    <div class="w-full h-full rounded-2xl bg-slate-900 flex items-center justify-center">
+                        <svg class="w-9 h-9 sm:w-11 sm:h-11 text-amber-400" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 14v7" />
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Academic Badge -->
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold tracking-wider uppercase bg-blue-500/20 text-blue-200 border border-blue-400/30 mb-3">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    Academic Session 2026–27
+                </span>
+
+                <!-- Bold College Heading -->
+                <h1 class="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white uppercase drop-shadow-sm">
+                    Government Polytechnic Dumka
+                </h1>
+
+                <p class="mt-2.5 text-sm sm:text-base text-blue-100/90 max-w-2xl font-medium">
+                    Online Student Registration &amp; Admission Management Portal
+                </p>
+
+                <!-- Quick Navigation Pills -->
+                <div class="mt-6 flex flex-wrap justify-center gap-3">
+                    <a href="#registrationSection" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-sm font-semibold border border-white/15 transition">
+                        <svg class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                        </svg>
+                        New Registration
+                    </a>
+                    <a href="#studentListSection" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 text-sm font-bold shadow-md transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        Registered Students
+                        <span id="headerCountBadge" class="ml-1 px-2 py-0.5 text-xs rounded-full bg-slate-900 text-amber-300 font-bold">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Wrapper -->
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+
+        <!-- SECTION 1: Registration Form Card -->
+        <section id="registrationSection" class="bg-white rounded-3xl shadow-xl shadow-slate-200/70 border border-slate-200/80 overflow-hidden">
+
+            <!-- Card Top Bar -->
+            <div class="bg-slate-50 border-b border-slate-200 px-6 sm:px-8 py-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                <div>
+                    <h2 id="formModeTitle" class="text-xl font-extrabold text-slate-900 flex items-center gap-2">
+                        <span class="w-2.5 h-6 rounded-full bg-indigo-600 inline-block"></span>
+                        Student Registration Form
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-500 mt-0.5">Fields marked with <span class="text-rose-500 font-bold">*</span> are mandatory.</p>
+                </div>
+
+                <!-- Edit Mode Banner (Hidden by default) -->
+                <div id="editModeIndicator" class="hidden items-center gap-2 bg-amber-50 border border-amber-300 text-amber-800 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold">
+                    <span>Editing Record: <strong id="editingRegIdLabel"></strong></span>
+                    <button type="button" id="cancelEditBtn" class="ml-2 px-2.5 py-1 rounded-lg bg-amber-200 hover:bg-amber-300 text-amber-950 font-bold transition">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+
+            <!-- Form Body -->
+            <form id="registrationForm" class="p-6 sm:p-8 space-y-8" novalidate>
+
+                <!-- Subsection: Personal Information -->
+                <div>
+                    <div class="flex items-center gap-2.5 mb-5 pb-2.5 border-b border-slate-200">
+                        <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-sm">1</div>
+                        <h3 class="text-base sm:text-lg font-bold text-slate-800">Personal Information</h3>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <!-- Full Name -->
+                        <div>
+                            <label for="name" class="block text-sm font-semibold text-slate-700 mb-1.5">
+                                Full Name <span class="text-rose-500">*</span>
+                            </label>
+                            <input type="text" id="name" placeholder="e.g., Rahul Kumar Verma" required
+                                class="w-full px-4 py-3 rounded-xl border border-slate-300 bg-slate-50 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/15 outline-none text-sm transition">
+                            <p class="error-msg hidden text-xs text-rose-600 mt-1 font-medium"></p>
+                        </div>
+
+                        <!-- Father's Name -->
+                        <div>
+                            <label for="father" class="block text-sm font-semibold text-slate-700 mb-1.5">
+                                Father's Name <span class="text-rose-500">*</span>
+                            </label>
+                            <input type="text" id="father" placeholder="e.g., Rajesh Verma" required
+                                class="w-full px-4 py-3 rounded-xl border border-slate-300 bg-slate-50 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/15 outline-none text-sm transition">
+                            <p class="error-msg hidden text-xs text-rose-600 mt-1 font-medium"></p>
+                        </div>
+
+                        <!-- Mother's Name -->
+                        <div>
+                            <label for="mother" class="block text-sm font-semibold text-slate-700 mb-1.5">
+                                Mother's Name
+                            </label>
+                            <input type="text" id="mother" placeholder="e.g., Sunita Devi"
+                                class="w-full px-4 py-3 rounded-xl border border-slate-300 bg-slate-50 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/15 outline-none text-sm transition">
+                        </div>
+
+                        <!-- Date of Birth -->
+                        <div>
+                            <label for="dob" class="block text-sm font-semibold text-slate-700 mb-1.5">
+                                Date of Birth <span class="text-rose-500">*</span>
+                            </label>
+                            <input type="date" id="dob" required
+                                class="w-full px-4 py-3 rounded-xl border border-slate-300 bg-slate-50 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/15 outline-none text-sm transition">
+                            <p class="error-msg hidden text-xs text-rose-600 mt-1 font-medium"></p>
+                        </div>
+
+                        <!-- Gender -->
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-1.5">
+                                Gender <span class="text-rose-500">*</span>
+                            </label>
+                            <div class="grid grid-cols-3 gap-2.5 pt-1">
+                                <label class="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl border border-slate-300 bg-slate-50 hover:bg-indigo-50/60 cursor-pointer transition has-[:checked]:bg-indigo-50 has-[:checked]:border-indigo-600 has-[:checked]:text-indigo-700">
+                                    <input type="radio" name="gender" value="Male" class="accent-indigo-600 w-4 h-4" required>
+                                    <span class="text-sm font-medium">Male</span>
+                                </label>
+                                <label class="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl border border-slate-300 bg-slate-50 hover:bg-indigo-50/60 cursor-pointer transition has-[:checked]:bg-indigo-50 has-[:checked]:border-indigo-600 has-[:checked]:text-indigo-700">
+                                    <input type="radio" name="gender" value="Female" class="accent-indigo-600 w-4 h-4">
+                                    <span class="text-sm font-medium">Female</span>
+                                </label>
+                                <label class="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl border border-slate-300 bg-slate-50 hover:bg-indigo-50/60 cursor-pointer transition has-[:checked]:bg-indigo-50 has-[:checked]:border-indigo-600 has-[:checked]:text-indigo-700">
+                                    <input type="radio" name="gender" value="Other" class="accent-indigo-600 w-4 h-4">
+                                    <span class="text-sm font-medium">Other</span>
+                                </label>
+                            </div>
+                            <p id="genderError" class="hidden text-xs text-rose-600 mt-1 font-medium">Please select a gender.</p>
+                        </div>
+
+                        <!-- Student Photo with Live Preview -->
+                        <div>
+                            <label for="photo" class="block text-sm font-semibold text-slate-700 mb-1.5">
+                                Student Photo (Optional)
+                            </label>
+                            <div class="flex items-center gap-4">
+                                <div id="photoPreviewBox" class="w-14 h-14 rounded-xl bg-slate-100 border-2 border-dashed border-slate-300 flex items-center justify-center overflow-hidden shrink-0">
+                                    <svg id="photoPlaceholderIcon" class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    <img id="photoPreviewImg" src="" alt="Preview" class="hidden w-full h-full object-cover">
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <input type="file" id="photo" accept="image/*"
+                                        class="block w-full text-xs text-slate-600 file:mr-3 file:py-2 file:px-3.5 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 cursor-pointer">
+                                    <button type="button" id="clearPhotoBtn" class="hidden mt-1 text-xs text-rose-600 hover:underline font-medium">Remove photo</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Subsection: Academic Information -->
+                <div>
+                    <div class="flex items-center gap-2.5 mb-5 pb-2.5 border-b border-slate-200">
+                        <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-sm">2</div>
+                        <h3 class="text-base sm:text-lg font-bold text-slate-800">Academic Information</h3>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                        <!-- Course -->
+                        <div>
+                            <label for="course" class="block text-sm font-semibold text-slate-700 mb-1.5">
+                                Course <span class="text-rose-500">*</span>
+                            </label>
+                            <select id="course" required
+                                class="w-full px-4 py-3 rounded-xl border border-slate-300 bg-slate-50 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/15 outline-none text-sm transition">
+                                <option value="">-- Select Course --</option>
+                                <option value="Diploma in Engineering" selected>Diploma in Engineering</option>
+                                <option value="Lateral Entry Diploma">Lateral Entry Diploma</option>
+                                <option value="B.Tech">B.Tech</option>
+                                <option value="BCA">BCA</option>
+                            </select>
+                            <p class="error-msg hidden text-xs text-rose-600 mt-1 font-medium"></p>
+                        </div>
+
+                        <!-- Branch -->
+                        <div>
+                            <label for="branch" class="block text-sm font-semibold text-slate-700 mb-1.5">
+                                Branch / Department <span class="text-rose-500">*</span>
+                            </label>
+                            <select id="branch" required
+                                class="w-full px-4 py-3 rounded-xl border border-slate-300 bg-slate-50 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/15 outline-none text-sm transition">
+                                <option value="">-- Select Branch --</option>
+                                <option value="Computer Science & Engineering">Computer Science &amp; Engineering</option>
+                                <option value="Civil Engineering">Civil Engineering</option>
+                                <option value="Electrical Engineering">Electrical Engineering</option>
+                                <option value="Mechanical Engineering">Mechanical Engineering</option>
+                                <option value="Electronics & Comm. Engineering">Electronics &amp; Comm. Engineering</option>
+                                <option value="Metallurgical Engineering">Metallurgical Engineering</option>
+                            </select>
+                            <p class="error-msg hidden text-xs text-rose-600 mt-1 font-medium"></p>
+                        </div>
+
+                        <!-- Semester -->
+                        <div>
+                            <label for="semester" class="block text-sm font-semibold text-slate-700 mb-1.5">
+                                Semester <span class="text-rose-500">*</span>
+                            </label>
+                            <select id="semester" required
+                                class="w-full px-4 py-3 rounded-xl border border-slate-300 bg-slate-50 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/15 outline-none text-sm transition">
+                                <option value="">-- Select Semester --</option>
+                                <option value="1st Semester">1st Semester</option>
+                                <option value="2nd Semester">2nd Semester</option>
+                                <option value="3rd Semester">3rd Semester</option>
+                                <option value="4th Semester">4th Semester</option>
+                                <option value="5th Semester">5th Semester</option>
+                                <option value="6th Semester">6th Semester</option>
+                            </select>
+                            <p class="error-msg hidden text-xs text-rose-600 mt-1 font-medium"></p>
+                        </div>
+
+                        <!-- Roll Number -->
+                        <div>
+                            <label for="roll" class="block text-sm font-semibold text-slate-700 mb-1.5">
+                                College Roll Number
+                            </label>
+                            <input type="text" id="roll" placeholder="e.g., 26CSE014"
+                                class="w-full px-4 py-3 rounded-xl border border-slate-300 bg-slate-50 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/15 outline-none text-sm transition">
+                        </div>
+
+                        <!-- Previous Qualification -->
+                        <div>
+                            <label for="qualification" class="block text-sm font-semibold text-slate-700 mb-1.5">
+                                Previous Qualification
+                            </label>
+                            <select id="qualification"
+                                class="w-full px-4 py-3 rounded-xl border border-slate-300 bg-slate-50 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/15 outline-none text-sm transition">
+                                <option value="">-- Select Qualification --</option>
+                                <option value="10th (Matric)">10th (Matric)</option>
+                                <option value="12th (Intermediate)">12th (Intermediate)</option>
+                                <option value="ITI">ITI</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <!-- Category -->
+                        <div>
+                            <label for="category" class="block text-sm font-semibold text-slate-700 mb-1.5">
+                                Category
+                            </label>
+                            <select id="category"
+                                class="w-full px-4 py-3 rounded-xl border border-slate-300 bg-slate-50 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/15 outline-none text-sm transition">
+                                <option value="General">General</option>
+                                <option value="OBC / BC-I / BC-II">OBC / BC-I / BC-II</option>
+                                <option value="SC">SC</option>
+                                <option value="ST">ST</option>
+                                <option value="EWS">EWS</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Subsection: Contact Information -->
+                <div>
+                    <div class="flex items-center gap-2.5 mb-5 pb-2.5 border-b border-slate-200">
+                        <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm">3</div>
+                        <h3 class="text-base sm:text-lg font-bold text-slate-800">Contact Information</h3>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <!-- Mobile Number -->
+                        <div>
+                            <label for="mobile" class="block text-sm font-semibold text-slate-700 mb-1.5">
+                                Mobile Number <span class="text-rose-500">*</span>
+                            </label>
+                            <input type="tel" id="mobile" maxlength="10" placeholder="Enter 10-digit mobile number" required
+                                class="w-full px-4 py-3 rounded-xl border border-slate-300 bg-slate-50 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/15 outline-none text-sm transition">
+                            <p class="error-msg hidden text-xs text-rose-600 mt-1 font-medium"></p>
+                        </div>
+
+                        <!-- Email Address -->
+                        <div>
+                            <label for="email" class="block text-sm font-semibold text-slate-700 mb-1.5">
+                                Email Address <span class="text-rose-500">*</span>
+                            </label>
+                            <input type="email" id="email" placeholder="student@example.com" required
+                                class="w-full px-4 py-3 rounded-xl border border-slate-300 bg-slate-50 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/15 outline-none text-sm transition">
+                            <p class="error-msg hidden text-xs text-rose-600 mt-1 font-medium"></p>
+                        </div>
+
+                        <!-- Complete Address -->
+                        <div class="md:col-span-2">
+                            <label for="address" class="block text-sm font-semibold text-slate-700 mb-1.5">
+                                Permanent Address <span class="text-rose-500">*</span>
+                            </label>
+                            <textarea id="address" rows="3" placeholder="Village/Town, Post, District, State, PIN Code" required
+                                class="w-full px-4 py-3 rounded-xl border border-slate-300 bg-slate-50 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/15 outline-none text-sm transition resize-y"></textarea>
+                            <p class="error-msg hidden text-xs text-rose-600 mt-1 font-medium"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Inline Form Validation Summary Banner -->
+                <div id="formErrorBanner" class="hidden rounded-2xl bg-rose-50 border border-rose-200 p-4 text-sm text-rose-800">
+                    <p class="font-bold flex items-center gap-2">
+                        <svg class="w-4 h-4 text-rose-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M10.29 3.86l-7.5 13A1 1 0 003.65 18.5h16.7a1 1 0 00.86-1.5l-7.5-13a1 1 0 00-1.72 0z" />
+                        </svg>
+                        Please complete the following required fields before registering:
+                    </p>
+                    <p id="formErrorSummaryList" class="mt-1 text-xs sm:text-sm font-medium text-rose-700"></p>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-end gap-3">
+                    <button type="button" id="resetFormBtn"
+                        class="w-full sm:w-auto px-6 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-sm transition flex items-center justify-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                        Reset Form
+                    </button>
+
+                    <button type="submit" id="submitBtn"
+                        class="w-full sm:w-auto px-8 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-sm shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/40 active:scale-[0.99] transition flex items-center justify-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span id="submitBtnText">Register Student</span>
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- SECTION 2: Registered Students List & Analytics -->
+        <section id="studentListSection" class="space-y-5">
+
+            <!-- Quick Stats Row -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm flex items-center gap-4">
+                    <div class="w-11 h-11 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Total Students</p>
+                        <p id="statTotal" class="text-2xl font-extrabold text-slate-900">0</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm flex items-center gap-4">
+                    <div class="w-11 h-11 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center shrink-0">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Active Branches</p>
+                        <p id="statBranches" class="text-2xl font-extrabold text-slate-900">0</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm flex items-center gap-4">
+                    <div class="w-11 h-11 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center shrink-0">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Male</p>
+                        <p id="statMale" class="text-2xl font-extrabold text-slate-900">0</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm flex items-center gap-4">
+                    <div class="w-11 h-11 rounded-xl bg-pink-100 text-pink-700 flex items-center justify-center shrink-0">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Female / Other</p>
+                        <p id="statFemaleOther" class="text-2xl font-extrabold text-slate-900">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Registered Students Directory Card -->
+            <div class="bg-white rounded-3xl shadow-xl shadow-slate-200/70 border border-slate-200/80 overflow-hidden">
+
+                <!-- Directory Header + Action Buttons + Search & Filter -->
+                <div class="bg-slate-50 border-b border-slate-200 p-5 sm:p-6 space-y-4">
+                    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
+                        <div>
+                            <div class="flex flex-wrap items-center gap-2">
+                                <h2 class="text-xl font-extrabold text-slate-900 flex items-center gap-2">
+                                    <span class="w-2.5 h-6 rounded-full bg-emerald-500 inline-block"></span>
+                                    Registered Students List
+                                </h2>
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                    Auto-Saved in Browser
+                                </span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-500 mt-0.5">Saved inside your browser's Local Storage (Press F12 → Application → Local Storage) or export to your PC anytime.</p>
+                        </div>
+
+                        <!-- Export CSV, JSON Backup & Clear All Buttons -->
+                        <div class="flex flex-wrap items-center gap-2">
+                            <button type="button" id="exportCsvBtn"
+                                class="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold shadow-sm transition">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                </svg>
+                                Export CSV
+                            </button>
+
+                            <button type="button" id="exportJsonBtn" title="Download backup file to your PC"
+                                class="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 text-xs sm:text-sm font-bold transition">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+                                </svg>
+                                Save Backup
+                            </button>
+
+                            <label for="importJsonInput" title="Load a saved JSON backup file"
+                                class="cursor-pointer inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 text-xs sm:text-sm font-bold transition">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                                </svg>
+                                Load Backup
+                                <input type="file" id="importJsonInput" accept="application/json,.json" class="hidden">
+                            </label>
+
+                            <button type="button" id="clearAllBtn"
+                                class="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs sm:text-sm font-bold transition">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg>
+                                Clear All
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Search & Branch Filter Bar -->
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-3">
+                        <div class="md:col-span-7 relative">
+                            <svg class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                            <input type="text" id="searchInput" placeholder="Search by name, Reg ID, roll no, or mobile..."
+                                class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/15 outline-none text-sm transition">
+                        </div>
+                        <div class="md:col-span-5">
+                            <select id="branchFilter"
+                                class="w-full px-4 py-2.5 rounded-xl border border-slate-300 bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/15 outline-none text-sm transition">
+                                <option value="ALL">All Branches</option>
+                                <option value="Computer Science & Engineering">Computer Science &amp; Engineering</option>
+                                <option value="Civil Engineering">Civil Engineering</option>
+                                <option value="Electrical Engineering">Electrical Engineering</option>
+                                <option value="Mechanical Engineering">Mechanical Engineering</option>
+                                <option value="Electronics & Comm. Engineering">Electronics &amp; Comm. Engineering</option>
+                                <option value="Metallurgical Engineering">Metallurgical Engineering</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Responsive Table Container -->
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100/80 border-b border-slate-200 text-xs font-bold text-slate-600 uppercase tracking-wider">
+                                <th class="py-3.5 px-5">Student &amp; Reg ID</th>
+                                <th class="py-3.5 px-4">Branch &amp; Sem</th>
+                                <th class="py-3.5 px-4">Roll / Gender</th>
+                                <th class="py-3.5 px-4">Contact</th>
+                                <th class="py-3.5 px-5 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentTableBody" class="divide-y divide-slate-200 text-sm">
+                            <!-- Dynamically populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Empty State -->
+                <div id="emptyState" class="hidden py-14 px-6 text-center">
+                    <div class="w-16 h-16 mx-auto rounded-2xl bg-slate-100 text-slate-400 flex items-center justify-center mb-3">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-base font-bold text-slate-700">No Student Records Found</h3>
+                    <p class="text-sm text-slate-500 mt-1">Register a new student above or adjust your search filters.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-12 bg-slate-900 text-slate-400 py-6 border-t border-slate-800">
+        <div class="max-w-6xl mx-auto px-4 text-center text-xs sm:text-sm">
+            <p class="font-bold text-white tracking-wide">GOVERNMENT POLYTECHNIC DUMKA</p>
+            <p class="mt-1">© 2026 Online Student Registration System • Department of Computer Science &amp; Engineering</p>
+        </div>
+    </footer>
+
+    <!-- MODAL 1: Student Details & Printable Admission Slip -->
+    <div id="slipModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/70 backdrop-blur-sm p-4 overflow-y-auto">
+        <div id="printableSlip" class="bg-white rounded-3xl shadow-2xl max-w-2xl w-full overflow-hidden border border-slate-200 my-auto">
+
+            <!-- Official Slip Header -->
+            <div class="bg-gradient-to-r from-slate-900 via-blue-950 to-indigo-950 text-white p-6 flex items-center justify-between gap-4">
+                <div>
+                    <p class="text-[11px] uppercase tracking-widest text-amber-300 font-bold">Official Registration Slip</p>
+                    <h3 class="text-lg sm:text-xl font-black tracking-tight mt-0.5">GOVERNMENT POLYTECHNIC DUMKA</h3>
+                    <p class="text-xs text-blue-200 mt-0.5">Student Admission Portal • Session 2026–27</p>
+                </div>
+                <button type="button" id="closeSlipModalBtn" class="no-print w-9 h-9 rounded-xl bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Slip Body -->
+            <div class="p-6 space-y-5">
+                <div class="flex flex-col sm:flex-row items-center sm:items-start gap-4 pb-5 border-b border-slate-200">
+                    <div id="slipPhotoContainer" class="w-20 h-20 rounded-2xl bg-indigo-100 text-indigo-700 font-extrabold text-2xl flex items-center justify-center overflow-hidden border-2 border-indigo-200 shrink-0"></div>
+                    <div class="text-center sm:text-left flex-1">
+                        <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2">
+                            <span id="slipRegId" class="px-2.5 py-0.5 rounded-lg bg-indigo-100 text-indigo-800 text-xs font-extrabold tracking-wide"></span>
+                            <span class="px-2.5 py-0.5 rounded-lg bg-emerald-100 text-emerald-800 text-xs font-bold">✓ Registered</span>
+                        </div>
+                        <h4 id="slipName" class="text-xl font-extrabold text-slate-900 mt-1.5"></h4>
+                        <p id="slipCourseBranch" class="text-sm font-semibold text-blue-700"></p>
+                    </div>
+                </div>
+
+                <!-- Details Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                    <div class="bg-slate-50 rounded-xl p-3 border border-slate-100">
+                        <span class="block text-xs font-semibold text-slate-500">Father's Name</span>
+                        <span id="slipFather" class="font-bold text-slate-800"></span>
+                    </div>
+                    <div class="bg-slate-50 rounded-xl p-3 border border-slate-100">
+                        <span class="block text-xs font-semibold text-slate-500">Mother's Name</span>
+                        <span id="slipMother" class="font-bold text-slate-800"></span>
+                    </div>
+                    <div class="bg-slate-50 rounded-xl p-3 border border-slate-100">
+                        <span class="block text-xs font-semibold text-slate-500">Date of Birth &amp; Gender</span>
+                        <span id="slipDobGender" class="font-bold text-slate-800"></span>
+                    </div>
+                    <div class="bg-slate-50 rounded-xl p-3 border border-slate-100">
+                        <span class="block text-xs font-semibold text-slate-500">Semester &amp; Roll No.</span>
+                        <span id="slipSemRoll" class="font-bold text-slate-800"></span>
+                    </div>
+                    <div class="bg-slate-50 rounded-xl p-3 border border-slate-100">
+                        <span class="block text-xs font-semibold text-slate-500">Qualification &amp; Category</span>
+                        <span id="slipQualCat" class="font-bold text-slate-800"></span>
+                    </div>
+                    <div class="bg-slate-50 rounded-xl p-3 border border-slate-100">
+                        <span class="block text-xs font-semibold text-slate-500">Mobile Number</span>
+                        <span id="slipMobile" class="font-bold text-slate-800"></span>
+                    </div>
+                    <div class="bg-slate-50 rounded-xl p-3 border border-slate-100 sm:col-span-2">
+                        <span class="block text-xs font-semibold text-slate-500">Email Address</span>
+                        <span id="slipEmail" class="font-bold text-slate-800 break-all"></span>
+                    </div>
+                    <div class="bg-slate-50 rounded-xl p-3 border border-slate-100 sm:col-span-2">
+                        <span class="block text-xs font-semibold text-slate-500">Permanent Address</span>
+                        <span id="slipAddress" class="font-bold text-slate-800"></span>
+                    </div>
+                </div>
+
+                <!-- Timestamp & Footer Actions -->
+                <div class="pt-3 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <p id="slipTimestamp" class="text-xs text-slate-500 font-medium"></p>
+                    <div class="no-print flex items-center gap-2.5 w-full sm:w-auto">
+                        <button type="button" id="printSlipBtn"
+                            class="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold shadow-sm transition">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                            </svg>
+                            Print Slip
+                        </button>
+                        <button type="button" id="doneSlipBtn"
+                            class="flex-1 sm:flex-none px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-semibold transition">
+                            Close &amp; View List
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 2: Delete Confirmation Dialog -->
+    <div id="deleteModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/70 backdrop-blur-sm p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 border border-slate-200">
+            <div class="flex items-start gap-4">
+                <div class="w-11 h-11 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center shrink-0">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                </div>
+                <div>
+                    <h3 id="deleteModalTitle" class="text-lg font-extrabold text-slate-900">Delete Student Record?</h3>
+                    <p id="deleteModalDesc" class="text-sm text-slate-600 mt-1"></p>
+                </div>
+            </div>
+            <div class="mt-6 flex items-center justify-end gap-2.5">
+                <button type="button" id="cancelDeleteBtn"
+                    class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-semibold transition">
+                    Cancel
+                </button>
+                <button type="button" id="confirmDeleteBtn"
+                    class="px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-sm font-bold shadow-sm transition">
+                    Yes, Delete
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application JavaScript -->
+    <script>
+        /**
+         * Government Polytechnic Dumka - Online Student Registration System
+         * Persistent browser Local Storage + CSV Export + JSON Backup/Restore
+         */
+        (() => {
+            // ---------------------------------------------------------
+            // 1. Persistent Local Storage & Application State
+            // ---------------------------------------------------------
+            const STORAGE_KEY = "gpd_dumka_registered_students_v1";
+
+            const DEFAULT_STUDENTS = [
+                {
+                    id: "stu-1",
+                    regId: "GPD-2026-001",
+                    name: "Aarav Kumar Mandal",
+                    father: "Suresh Prasad Mandal",
+                    mother: "Rekha Devi",
+                    dob: "2007-05-14",
+                    gender: "Male",
+                    photoUrl: null,
+                    course: "Diploma in Engineering",
+                    branch: "Computer Science & Engineering",
+                    semester: "3rd Semester",
+                    roll: "25CSE012",
+                    qualification: "10th (Matric)",
+                    category: "OBC / BC-I / BC-II",
+                    mobile: "9876543210",
+                    email: "aarav.mandal@example.com",
+                    address: "Shastri Nagar, Dumka, Jharkhand - 814101",
+                    registeredAt: "22 Nov 2026, 10:15 AM"
+                },
+                {
+                    id: "stu-2",
+                    regId: "GPD-2026-002",
+                    name: "Priya Kumari Soren",
+                    father: "Manoj Soren",
+                    mother: "Savita Soren",
+                    dob: "2006-11-28",
+                    gender: "Female",
+                    photoUrl: null,
+                    course: "Diploma in Engineering",
+                    branch: "Electrical Engineering",
+                    semester: "5th Semester",
+                    roll: "24EE029",
+                    qualification: "12th (Intermediate)",
+                    category: "ST",
+                    mobile: "9123456789",
+                    email: "priya.soren@example.com",
+                    address: "Dudhani, Near Polytechnic More, Dumka, Jharkhand - 814101",
+                    registeredAt: "22 Nov 2026, 11:40 AM"
+                }
+            ];
+
+            function loadStudentsFromStorage() {
+                try {
+                    const raw = localStorage.getItem(STORAGE_KEY);
+                    if (raw === null) {
+                        localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_STUDENTS));
+                        return [...DEFAULT_STUDENTS];
+                    }
+                    const parsed = JSON.parse(raw);
+                    return Array.isArray(parsed) ? parsed : [];
+                } catch (err) {
+                    console.warn("Local Storage unavailable, using session memory:", err);
+                    return [...DEFAULT_STUDENTS];
+                }
+            }
+
+            function saveStudentsToStorage() {
+                try {
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(students));
+                } catch (err) {
+                    try {
+                        const compactList = students.map(s => ({ ...s, photoUrl: null }));
+                        localStorage.setItem(STORAGE_KEY, JSON.stringify(compactList));
+                        showToast("Saved record (photo skipped due to browser storage limit).", "info");
+                    } catch (innerErr) {
+                        console.warn("Unable to persist to localStorage:", innerErr);
+                    }
+                }
+            }
+
+            function computeNextRegCounter(list) {
+                let maxNum = 0;
+                list.forEach(s => {
+                    const match = String(s.regId || "").match(/(\d+)$/);
+                    if (match) {
+                        const num = parseInt(match[1], 10);
+                        if (num > maxNum) maxNum = num;
+                    }
+                });
+                return maxNum + 1;
+            }
+
+            let students = loadStudentsFromStorage();
+            let regCounter = computeNextRegCounter(students);
+            let editingId = null;
+            let pendingDeleteId = null;
+            let deleteMode = "single"; // "single" | "all"
+            let currentPhotoUrl = null;
+            let lastHighlightedId = null;
+            let shouldScrollToListAfterSlip = false;
+
+            // ---------------------------------------------------------
+            // 2. DOM Element References
+            // ---------------------------------------------------------
+            const form = document.getElementById("registrationForm");
+            const editModeIndicator = document.getElementById("editModeIndicator");
+            const editingRegIdLabel = document.getElementById("editingRegIdLabel");
+            const cancelEditBtn = document.getElementById("cancelEditBtn");
+            const submitBtnText = document.getElementById("submitBtnText");
+            const resetFormBtn = document.getElementById("resetFormBtn");
+            const formErrorBanner = document.getElementById("formErrorBanner");
+            const formErrorSummaryList = document.getElementById("formErrorSummaryList");
+
+            const photoInput = document.getElementById("photo");
+            const photoPreviewImg = document.getElementById("photoPreviewImg");
+            const photoPlaceholderIcon = document.getElementById("photoPlaceholderIcon");
+            const clearPhotoBtn = document.getElementById("clearPhotoBtn");
+
+            const studentListSection = document.getElementById("studentListSection");
+            const studentTableBody = document.getElementById("studentTableBody");
+            const emptyState = document.getElementById("emptyState");
+            const searchInput = document.getElementById("searchInput");
+            const branchFilter = document.getElementById("branchFilter");
+            const exportCsvBtn = document.getElementById("exportCsvBtn");
+            const exportJsonBtn = document.getElementById("exportJsonBtn");
+            const importJsonInput = document.getElementById("importJsonInput");
+            const clearAllBtn = document.getElementById("clearAllBtn");
+
+            const headerCountBadge = document.getElementById("headerCountBadge");
+            const statTotal = document.getElementById("statTotal");
+            const statBranches = document.getElementById("statBranches");
+            const statMale = document.getElementById("statMale");
+            const statFemaleOther = document.getElementById("statFemaleOther");
+
+            const slipModal = document.getElementById("slipModal");
+            const closeSlipModalBtn = document.getElementById("closeSlipModalBtn");
+            const doneSlipBtn = document.getElementById("doneSlipBtn");
+            const printSlipBtn = document.getElementById("printSlipBtn");
+
+            const deleteModal = document.getElementById("deleteModal");
+            const deleteModalTitle = document.getElementById("deleteModalTitle");
+            const deleteModalDesc = document.getElementById("deleteModalDesc");
+            const cancelDeleteBtn = document.getElementById("cancelDeleteBtn");
+            const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+
+            const toastContainer = document.getElementById("toastContainer");
+
+            // ---------------------------------------------------------
+            // 3. Helper Utilities
+            // ---------------------------------------------------------
+            function escapeHtml(str) {
+                if (!str) return "";
+                return String(str)
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;");
+            }
+
+            function getInitials(name) {
+                return (name || "ST")
+                    .trim()
+                    .split(/\s+/)
+                    .slice(0, 2)
+                    .map(part => part[0]?.toUpperCase() || "")
+                    .join("");
+            }
+
+            function showToast(message, type = "success") {
+                const colors = {
+                    success: "bg-emerald-600 text-white border-emerald-500",
+                    error: "bg-rose-600 text-white border-rose-500",
+                    info: "bg-indigo-600 text-white border-indigo-500"
+                };
+
+                const toast = document.createElement("div");
+                toast.className = `pointer-events-auto flex items-center justify-between gap-3 px-4 py-3 rounded-xl shadow-lg border text-sm font-semibold transition-all duration-300 translate-y-2 opacity-0 ${colors[type] || colors.info}`;
+                toast.innerHTML = `
+                    <span>${escapeHtml(message)}</span>
+                    <button type="button" class="text-white/80 hover:text-white font-bold text-lg leading-none">&times;</button>
+                `;
+
+                const closeBtn = toast.querySelector("button");
+                const removeToast = () => {
+                    toast.classList.add("opacity-0", "translate-y-2");
+                    setTimeout(() => toast.remove(), 300);
+                };
+                closeBtn.addEventListener("click", removeToast);
+
+                toastContainer.appendChild(toast);
+                requestAnimationFrame(() => {
+                    toast.classList.remove("opacity-0", "translate-y-2");
+                });
+
+                setTimeout(removeToast, 3800);
+            }
+
+            function getFormattedTimestamp() {
+                try {
+                    return new Date().toLocaleString("en-IN", {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: true
+                    });
+                } catch {
+                    return new Date().toLocaleDateString();
+                }
+            }
+
+            function generateRegId() {
+                const padded = String(regCounter++).padStart(3, "0");
+                return `GPD-2026-${padded}`;
+            }
+
+            // ---------------------------------------------------------
+            // 4. Photo Preview Handling (Compressed for Local Storage)
+            // ---------------------------------------------------------
+            function updatePhotoPreview(url) {
+                currentPhotoUrl = url;
+                if (url) {
+                    photoPreviewImg.src = url;
+                    photoPreviewImg.classList.remove("hidden");
+                    photoPlaceholderIcon.classList.add("hidden");
+                    clearPhotoBtn.classList.remove("hidden");
+                } else {
+                    photoPreviewImg.src = "";
+                    photoPreviewImg.classList.add("hidden");
+                    photoPlaceholderIcon.classList.remove("hidden");
+                    clearPhotoBtn.classList.add("hidden");
+                    photoInput.value = "";
+                }
+            }
+
+            photoInput.addEventListener("change", (e) => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+
+                if (!file.type.startsWith("image/")) {
+                    showToast("Please select a valid image file.", "error");
+                    photoInput.value = "";
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const maxSize = 180;
+                        let width = img.width;
+                        let height = img.height;
+                        if (width > height && width > maxSize) {
+                            height = Math.round((height * maxSize) / width);
+                            width = maxSize;
+                        } else if (height > maxSize) {
+                            width = Math.round((width * maxSize) / height);
+                            height = maxSize;
+                        }
+                        const canvas = document.createElement("canvas");
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext("2d");
+                        ctx.drawImage(img, 0, 0, width, height);
+                        const compressedUrl = canvas.toDataURL("image/jpeg", 0.75);
+                        updatePhotoPreview(compressedUrl);
+                    };
+                    img.onerror = () => {
+                        showToast("Could not read the selected image.", "error");
+                    };
+                    img.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+
+            clearPhotoBtn.addEventListener("click", () => {
+                updatePhotoPreview(null);
+            });
+
+            // ---------------------------------------------------------
+            // 5. Form Validation
+            // ---------------------------------------------------------
+            function clearAllErrors() {
+                form.querySelectorAll(".error-msg").forEach(el => {
+                    el.textContent = "";
+                    el.classList.add("hidden");
+                });
+                form.querySelectorAll("input, select, textarea").forEach(el => {
+                    el.classList.remove("border-rose-500", "ring-2", "ring-rose-200");
+                });
+                document.getElementById("genderError").classList.add("hidden");
+                formErrorBanner.classList.add("hidden");
+                formErrorSummaryList.textContent = "";
+            }
+
+            function setFieldError(fieldId, message) {
+                const input = document.getElementById(fieldId);
+                if (!input) return;
+                input.classList.add("border-rose-500", "ring-2", "ring-rose-200");
+                const errorEl = input.parentElement.querySelector(".error-msg");
+                if (errorEl) {
+                    errorEl.textContent = message;
+                    errorEl.classList.remove("hidden");
+                }
+            }
+
+            function validateForm() {
+                clearAllErrors();
+                let isValid = true;
+                let firstInvalidEl = null;
+                const missingLabels = [];
+
+                const markInvalid = (id, label, msg) => {
+                    setFieldError(id, msg);
+                    missingLabels.push(label);
+                    if (!firstInvalidEl) firstInvalidEl = document.getElementById(id);
+                    isValid = false;
+                };
+
+                const name = document.getElementById("name").value.trim();
+                const father = document.getElementById("father").value.trim();
+                const dob = document.getElementById("dob").value;
+                const gender = form.querySelector('input[name="gender"]:checked');
+                const course = document.getElementById("course").value;
+                const branch = document.getElementById("branch").value;
+                const semester = document.getElementById("semester").value;
+                const mobile = document.getElementById("mobile").value.trim();
+                const email = document.getElementById("email").value.trim();
+                const address = document.getElementById("address").value.trim();
+
+                if (name.length < 2) markInvalid("name", "Full Name", "Please enter the student's full name.");
+                if (father.length < 2) markInvalid("father", "Father's Name", "Please enter father's name.");
+                if (!dob) markInvalid("dob", "Date of Birth", "Please select date of birth.");
+
+                if (!gender) {
+                    const genderErr = document.getElementById("genderError");
+                    genderErr.classList.remove("hidden");
+                    missingLabels.push("Gender");
+                    if (!firstInvalidEl) firstInvalidEl = genderErr;
+                    isValid = false;
+                }
+
+                if (!course) markInvalid("course", "Course", "Please select a course.");
+                if (!branch) markInvalid("branch", "Branch", "Please select a branch.");
+                if (!semester) markInvalid("semester", "Semester", "Please select a semester.");
+
+                if (!/^[0-9]{10}$/.test(mobile)) {
+                    markInvalid("mobile", "10-digit Mobile Number", "Enter a valid 10-digit mobile number.");
+                }
+
+                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    markInvalid("email", "Valid Email", "Enter a valid email address.");
+                }
+
+                if (address.length < 5) {
+                    markInvalid("address", "Permanent Address", "Please enter complete permanent address (min 5 chars).");
+                }
+
+                if (!isValid) {
+                    formErrorSummaryList.textContent = missingLabels.join(" • ");
+                    formErrorBanner.classList.remove("hidden");
+                    if (firstInvalidEl) {
+                        firstInvalidEl.scrollIntoView({ behavior: "smooth", block: "center" });
+                        if (typeof firstInvalidEl.focus === "function") firstInvalidEl.focus();
+                    }
+                }
+
+                return isValid;
+            }
+
+            document.getElementById("mobile").addEventListener("input", (e) => {
+                e.target.value = e.target.value.replace(/\D/g, "").slice(0, 10);
+            });
+
+            // ---------------------------------------------------------
+            // 6. Form Submit (Create or Update Student)
+            // ---------------------------------------------------------
+            form.addEventListener("submit", (e) => {
+                e.preventDefault();
+
+                if (!validateForm()) {
+                    showToast("Please complete the highlighted required fields.", "error");
+                    return;
+                }
+
+                const genderChecked = form.querySelector('input[name="gender"]:checked');
+
+                const formData = {
+                    name: document.getElementById("name").value.trim(),
+                    father: document.getElementById("father").value.trim(),
+                    mother: document.getElementById("mother").value.trim() || "Not Provided",
+                    dob: document.getElementById("dob").value,
+                    gender: genderChecked ? genderChecked.value : "",
+                    photoUrl: currentPhotoUrl,
+                    course: document.getElementById("course").value,
+                    branch: document.getElementById("branch").value,
+                    semester: document.getElementById("semester").value,
+                    roll: document.getElementById("roll").value.trim() || "Not Assigned",
+                    qualification: document.getElementById("qualification").value || "Not Provided",
+                    category: document.getElementById("category").value || "General",
+                    mobile: document.getElementById("mobile").value.trim(),
+                    email: document.getElementById("email").value.trim(),
+                    address: document.getElementById("address").value.trim()
+                };
+
+                // Clear filters so the newly added/updated student is always visible
+                searchInput.value = "";
+                branchFilter.value = "ALL";
+
+                if (editingId) {
+                    const index = students.findIndex(s => s.id === editingId);
+                    if (index !== -1) {
+                        students[index] = {
+                            ...students[index],
+                            ...formData
+                        };
+                        const updatedStudent = students[index];
+                        lastHighlightedId = updatedStudent.id;
+                        shouldScrollToListAfterSlip = true;
+                        saveStudentsToStorage();
+                        exitEditMode();
+                        renderStudents();
+                        showToast(`Updated & saved record for ${updatedStudent.name}!`, "info");
+                        openSlipModal(updatedStudent);
+                    }
+                } else {
+                    const newStudent = {
+                        id: "stu-" + Date.now(),
+                        regId: generateRegId(),
+                        ...formData,
+                        registeredAt: getFormattedTimestamp()
+                    };
+
+                    students.unshift(newStudent);
+                    lastHighlightedId = newStudent.id;
+                    shouldScrollToListAfterSlip = true;
+                    saveStudentsToStorage();
+                    resetFormState();
+                    renderStudents();
+                    showToast(`Registered & saved! ID: ${newStudent.regId}`, "success");
+                    openSlipModal(newStudent);
+                }
+            });
+
+            // ---------------------------------------------------------
+            // 7. Reset & Edit Mode Helpers
+            // ---------------------------------------------------------
+            function resetFormState() {
+                form.reset();
+                clearAllErrors();
+                updatePhotoPreview(null);
+                document.getElementById("course").value = "Diploma in Engineering";
+            }
+
+            function startEditStudent(studentId) {
+                const student = students.find(s => s.id === studentId);
+                if (!student) return;
+
+                editingId = student.id;
+                clearAllErrors();
+
+                document.getElementById("name").value = student.name;
+                document.getElementById("father").value = student.father;
+                document.getElementById("mother").value = student.mother === "Not Provided" ? "" : student.mother;
+                document.getElementById("dob").value = student.dob;
+
+                const genderRadio = form.querySelector(`input[name="gender"][value="${student.gender}"]`);
+                if (genderRadio) genderRadio.checked = true;
+
+                updatePhotoPreview(student.photoUrl);
+
+                document.getElementById("course").value = student.course;
+                document.getElementById("branch").value = student.branch;
+                document.getElementById("semester").value = student.semester;
+                document.getElementById("roll").value = student.roll === "Not Assigned" ? "" : student.roll;
+                document.getElementById("qualification").value = student.qualification === "Not Provided" ? "" : student.qualification;
+                document.getElementById("category").value = student.category || "General";
+                document.getElementById("mobile").value = student.mobile;
+                document.getElementById("email").value = student.email;
+                document.getElementById("address").value = student.address;
+
+                editingRegIdLabel.textContent = student.regId;
+                editModeIndicator.classList.remove("hidden");
+                editModeIndicator.classList.add("flex");
+                submitBtnText.textContent = "Update Student Record";
+
+                document.getElementById("registrationSection").scrollIntoView({ behavior: "smooth" });
+                showToast(`Editing ${student.name}`, "info");
+            }
+
+            function exitEditMode() {
+                editingId = null;
+                editModeIndicator.classList.add("hidden");
+                editModeIndicator.classList.remove("flex");
+                submitBtnText.textContent = "Register Student";
+                resetFormState();
+            }
+
+            resetFormBtn.addEventListener("click", () => {
+                if (editingId) {
+                    exitEditMode();
+                } else {
+                    resetFormState();
+                }
+                showToast("Form cleared.", "info");
+            });
+
+            cancelEditBtn.addEventListener("click", () => {
+                exitEditMode();
+                showToast("Edit cancelled.", "info");
+            });
+
+            // ---------------------------------------------------------
+            // 8. Render Registered Students List & Stats
+            // ---------------------------------------------------------
+            function updateStats() {
+                const total = students.length;
+                const uniqueBranches = new Set(students.map(s => s.branch)).size;
+                const maleCount = students.filter(s => s.gender === "Male").length;
+                const femaleOtherCount = total - maleCount;
+
+                headerCountBadge.textContent = total;
+                statTotal.textContent = total;
+                statBranches.textContent = uniqueBranches;
+                statMale.textContent = maleCount;
+                statFemaleOther.textContent = femaleOtherCount;
+            }
+
+            function getFilteredStudents() {
+                const query = searchInput.value.trim().toLowerCase();
+                const selectedBranch = branchFilter.value;
+
+                return students.filter(student => {
+                    const matchesBranch = selectedBranch === "ALL" || student.branch === selectedBranch;
+                    const matchesSearch = !query || [
+                        student.name,
+                        student.regId,
+                        student.father,
+                        student.roll,
+                        student.mobile,
+                        student.email,
+                        student.branch
+                    ].some(val => (val || "").toLowerCase().includes(query));
+
+                    return matchesBranch && matchesSearch;
+                });
+            }
+
+            function renderStudents() {
+                updateStats();
+                const filtered = getFilteredStudents();
+
+                studentTableBody.innerHTML = "";
+
+                if (filtered.length === 0) {
+                    emptyState.classList.remove("hidden");
+                    return;
+                }
+
+                emptyState.classList.add("hidden");
+
+                filtered.forEach(student => {
+                    const tr = document.createElement("tr");
+                    const highlightClass = student.id === lastHighlightedId ? "row-highlight" : "";
+                    tr.className = `hover:bg-slate-50/90 transition ${highlightClass}`;
+                    tr.dataset.rowId = student.id;
+
+                    const avatarHtml = student.photoUrl
+                        ? `<img src="${student.photoUrl}" alt="${escapeHtml(student.name)}" class="w-11 h-11 rounded-xl object-cover border border-slate-200 shrink-0">`
+                        : `<div class="w-11 h-11 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white font-bold text-sm flex items-center justify-center shrink-0 shadow-sm">${escapeHtml(getInitials(student.name))}</div>`;
+
+                    tr.innerHTML = `
+                        <td class="py-4 px-5">
+                            <div class="flex items-center gap-3.5">
+                                ${avatarHtml}
+                                <div class="min-w-0">
+                                    <p class="font-bold text-slate-900 truncate">${escapeHtml(student.name)}</p>
+                                    <div class="flex flex-wrap items-center gap-1.5 mt-0.5">
+                                        <span class="px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 text-[11px] font-bold border border-indigo-100">${escapeHtml(student.regId)}</span>
+                                        <span class="text-xs text-slate-500">S/o ${escapeHtml(student.father)}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="py-4 px-4">
+                            <p class="font-semibold text-slate-800 text-xs sm:text-sm">${escapeHtml(student.branch)}</p>
+                            <span class="inline-block mt-1 px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 text-xs font-semibold">${escapeHtml(student.semester)}</span>
+                        </td>
+                        <td class="py-4 px-4">
+                            <p class="font-semibold text-slate-800 text-xs sm:text-sm">${escapeHtml(student.roll)}</p>
+                            <p class="text-xs text-slate-500 mt-0.5">${escapeHtml(student.gender)} • ${escapeHtml(student.category)}</p>
+                        </td>
+                        <td class="py-4 px-4">
+                            <p class="font-semibold text-slate-800 text-xs sm:text-sm">${escapeHtml(student.mobile)}</p>
+                            <p class="text-xs text-slate-500 truncate max-w-[180px]" title="${escapeHtml(student.email)}">${escapeHtml(student.email)}</p>
+                        </td>
+                        <td class="py-4 px-5">
+                            <div class="flex items-center justify-end gap-1.5">
+                                <button type="button" data-action="view" data-id="${student.id}" title="View / Print Slip"
+                                    class="p-2 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 transition">
+                                    <svg class="w-4 h-4 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                    </svg>
+                                </button>
+                                <button type="button" data-action="edit" data-id="${student.id}" title="Edit Record"
+                                    class="p-2 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-700 transition">
+                                    <svg class="w-4 h-4 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                    </svg>
+                                </button>
+                                <button type="button" data-action="delete" data-id="${student.id}" title="Delete Record"
+                                    class="p-2 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 transition">
+                                    <svg class="w-4 h-4 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </td>
+                    `;
+
+                    studentTableBody.appendChild(tr);
+                });
+            }
+
+            studentTableBody.addEventListener("click", (e) => {
+                const btn = e.target.closest("button[data-action]");
+                if (!btn) return;
+
+                const action = btn.dataset.action;
+                const id = btn.dataset.id;
+
+                if (action === "view") {
+                    const student = students.find(s => s.id === id);
+                    if (student) openSlipModal(student);
+                } else if (action === "edit") {
+                    startEditStudent(id);
+                } else if (action === "delete") {
+                    openDeleteModal(id);
+                }
+            });
+
+            searchInput.addEventListener("input", renderStudents);
+            branchFilter.addEventListener("change", renderStudents);
+
+            // ---------------------------------------------------------
+            // 9. Registration Slip Modal
+            // ---------------------------------------------------------
+            function openSlipModal(student) {
+                const photoBox = document.getElementById("slipPhotoContainer");
+                if (student.photoUrl) {
+                    photoBox.innerHTML = `<img src="${student.photoUrl}" alt="${escapeHtml(student.name)}" class="w-full h-full object-cover">`;
+                } else {
+                    photoBox.textContent = getInitials(student.name);
+                }
+
+                document.getElementById("slipRegId").textContent = student.regId;
+                document.getElementById("slipName").textContent = student.name;
+                document.getElementById("slipCourseBranch").textContent = `${student.course} — ${student.branch}`;
+                document.getElementById("slipFather").textContent = student.father;
+                document.getElementById("slipMother").textContent = student.mother;
+                document.getElementById("slipDobGender").textContent = `${student.dob} (${student.gender})`;
+                document.getElementById("slipSemRoll").textContent = `${student.semester} | Roll: ${student.roll}`;
+                document.getElementById("slipQualCat").textContent = `${student.qualification} (${student.category})`;
+                document.getElementById("slipMobile").textContent = student.mobile;
+                document.getElementById("slipEmail").textContent = student.email;
+                document.getElementById("slipAddress").textContent = student.address;
+                document.getElementById("slipTimestamp").textContent = `Registered on: ${student.registeredAt}`;
+
+                slipModal.classList.remove("hidden");
+                slipModal.classList.add("flex");
+            }
+
+            function closeSlipModal() {
+                slipModal.classList.add("hidden");
+                slipModal.classList.remove("flex");
+
+                if (shouldScrollToListAfterSlip) {
+                    shouldScrollToListAfterSlip = false;
+                    studentListSection.scrollIntoView({ behavior: "smooth", block: "start" });
+                    renderStudents();
+                    setTimeout(() => {
+                        lastHighlightedId = null;
+                    }, 3000);
+                }
+            }
+
+            closeSlipModalBtn.addEventListener("click", closeSlipModal);
+            doneSlipBtn.addEventListener("click", closeSlipModal);
+            printSlipBtn.addEventListener("click", () => window.print());
+            slipModal.addEventListener("click", (e) => {
+                if (e.target === slipModal) closeSlipModal();
+            });
+
+            // ---------------------------------------------------------
+            // 10. Delete Confirmation Modal (Single Record & Clear All)
+            // ---------------------------------------------------------
+            function openDeleteModal(studentId) {
+                const student = students.find(s => s.id === studentId);
+                if (!student) return;
+                deleteMode = "single";
+                pendingDeleteId = studentId;
+                deleteModalTitle.textContent = "Delete Student Record?";
+                deleteModalDesc.innerHTML = `Are you sure you want to remove <strong class="text-slate-900">${escapeHtml(student.name)} (${escapeHtml(student.regId)})</strong> from the registered list? This action cannot be undone.`;
+                confirmDeleteBtn.textContent = "Yes, Delete";
+                deleteModal.classList.remove("hidden");
+                deleteModal.classList.add("flex");
+            }
+
+            clearAllBtn.addEventListener("click", () => {
+                if (students.length === 0) {
+                    showToast("The student list is already empty.", "info");
+                    return;
+                }
+                deleteMode = "all";
+                pendingDeleteId = null;
+                deleteModalTitle.textContent = "Clear All Registered Students?";
+                deleteModalDesc.innerHTML = `Are you sure you want to delete all <strong class="text-slate-900">${students.length}</strong> saved student records from browser storage?`;
+                confirmDeleteBtn.textContent = "Yes, Clear All";
+                deleteModal.classList.remove("hidden");
+                deleteModal.classList.add("flex");
+            });
+
+            function closeDeleteModal() {
+                pendingDeleteId = null;
+                deleteModal.classList.add("hidden");
+                deleteModal.classList.remove("flex");
+            }
+
+            cancelDeleteBtn.addEventListener("click", closeDeleteModal);
+            deleteModal.addEventListener("click", (e) => {
+                if (e.target === deleteModal) closeDeleteModal();
+            });
+
+            confirmDeleteBtn.addEventListener("click", () => {
+                if (deleteMode === "all") {
+                    students = [];
+                    regCounter = 1;
+                    if (editingId) exitEditMode();
+                    saveStudentsToStorage();
+                    closeDeleteModal();
+                    renderStudents();
+                    showToast("All student records cleared from storage.", "info");
+                    return;
+                }
+
+                if (!pendingDeleteId) return;
+                const removed = students.find(s => s.id === pendingDeleteId);
+                students = students.filter(s => s.id !== pendingDeleteId);
+
+                if (editingId === pendingDeleteId) {
+                    exitEditMode();
+                }
+
+                saveStudentsToStorage();
+                closeDeleteModal();
+                renderStudents();
+                showToast(`Removed ${removed ? removed.name : "student"} from list.`, "info");
+            });
+
+            // ---------------------------------------------------------
+            // 11. Export CSV & JSON Backup / Restore
+            // ---------------------------------------------------------
+            exportCsvBtn.addEventListener("click", () => {
+                if (students.length === 0) {
+                    showToast("No student records available to export.", "error");
+                    return;
+                }
+
+                try {
+                    const headers = [
+                        "Reg ID", "Full Name", "Father's Name", "Mother's Name",
+                        "DOB", "Gender", "Course", "Branch", "Semester",
+                        "Roll Number", "Qualification", "Category", "Mobile",
+                        "Email", "Address", "Registered At"
+                    ];
+
+                    const csvSafe = (val) => `"${String(val || "").replace(/"/g, '""')}"`;
+
+                    const rows = students.map(s => [
+                        s.regId, s.name, s.father, s.mother,
+                        s.dob, s.gender, s.course, s.branch, s.semester,
+                        s.roll, s.qualification, s.category, s.mobile,
+                        s.email, s.address, s.registeredAt
+                    ].map(csvSafe).join(","));
+
+                    const csvContent = [headers.map(csvSafe).join(","), ...rows].join("\n");
+                    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+                    const url = URL.createObjectURL(blob);
+
+                    const link = document.createElement("a");
+                    link.href = url;
+                    link.download = "GPD_Registered_Students_2026.csv";
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(url);
+
+                    showToast("Student list exported as CSV (Excel file)!", "success");
+                } catch (err) {
+                    showToast("Failed to export CSV file.", "error");
+                }
+            });
+
+            exportJsonBtn.addEventListener("click", () => {
+                if (students.length === 0) {
+                    showToast("No student records to back up.", "error");
+                    return;
+                }
+
+                try {
+                    const blob = new Blob([JSON.stringify(students, null, 2)], { type: "application/json" });
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement("a");
+                    link.href = url;
+                    link.download = "GPD_Students_Backup.json";
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(url);
+                    showToast("Backup file (GPD_Students_Backup.json) downloaded!", "success");
+                } catch (err) {
+                    showToast("Failed to download backup file.", "error");
+                }
+            });
+
+            importJsonInput.addEventListener("change", (e) => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    try {
+                        const imported = JSON.parse(event.target.result);
+                        if (!Array.isArray(imported)) {
+                            throw new Error("Invalid backup format");
+                        }
+                        students = imported;
+                        regCounter = computeNextRegCounter(students);
+                        saveStudentsToStorage();
+                        renderStudents();
+                        showToast(`Loaded ${students.length} student records from backup!`, "success");
+                    } catch (err) {
+                        showToast("Invalid JSON backup file.", "error");
+                    } finally {
+                        importJsonInput.value = "";
+                    }
+                };
+                reader.readAsText(file);
+            });
+
+            // ---------------------------------------------------------
+            // 12. Initial Render on Page Load
+            // ---------------------------------------------------------
+            renderStudents();
+        })();
+    </script>
+</body>
+</html>
+```
